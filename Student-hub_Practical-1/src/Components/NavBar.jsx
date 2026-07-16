@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function NavBar(){
 
     return(
@@ -13,10 +15,23 @@ function NavBar(){
                     backgroungColor : "#333",
                 }}
                 >
-                    <li style={{color: "yellow",fontWeight: "bold"}}>Home</li>
-                    <li style={{color: "white"}}>About</li>
-                    <li style={{color: "white"}}>Skills</li>
-                    <li style={{color: "white"}}>Contact</li>
+             <li>
+          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+            Home
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/projects" style={{ color: "white", textDecoration: "none" }}>
+            Projects
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/contact" style={{ color: "white", textDecoration: "none" }}>
+            Contact
+          </Link>
+        </li>
             </ul>
             </nav>
         </div>

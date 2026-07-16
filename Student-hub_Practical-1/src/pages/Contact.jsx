@@ -1,26 +1,24 @@
 import { useState } from "react";
 
-function Contact(){
+function Contact() {
+  const [message, setMessage] = useState("");
 
-    const[message,setMessage] = useState('')
+  return (
+    <div className="page">
+      <h2>Contact Me</h2>
 
-   return (
-     
-    <>
-    <h2>Contact Me</h2>
-    <input 
-    type = "text"
-    value={message}
-    exchange={(e) => setMessage(e.target.value)}
-    placeholder="Type your message..."
-    />
+      <input
+        type="text"
+        placeholder="Type your message..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
 
-    <p>{message}</p>
-    <p> Character Count : {message.length}</p>
-    </>
+      <p>Message: {message}</p>
 
-   );
-
+      <p>Character Count: {message.length}</p>
+    </div>
+  );
 }
 
 export default Contact;

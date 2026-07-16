@@ -1,7 +1,15 @@
 function Projects() {
   return (
     <div>
-      <h2>My Projects</h2>
+      <h1 
+          style = {{
+                    display : "flex",
+                    justifyContent : "Center",
+                    padding :  "15px",
+                    backgroungColor : "#0c0a0a",
+                    color:"black",
+                }}     
+      > My Projects</h1>
     </div>
   );
 }
