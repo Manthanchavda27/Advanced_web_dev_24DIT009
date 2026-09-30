@@ -7,37 +7,36 @@ function Projects() {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    fetch("https://api.github.com/users/Manthanchavda27/repos")
+  function fetchRepos() {
+    setLoading(true);
+    setError("");
+    fetch("https://api.github.com/users/INVALID_USER_XYZ/repos")
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch repositories");
-        }
+        if (!res.ok) throw new Error("Failed to fetch repositories");
         return res.json();
       })
-      .then((data) => {
-        setRepos(data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then((data) => setRepos(data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    fetchRepos();
   }, []);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  if (loading) return <Spinner />;
 
-  if (error) {
-    return <ErrorMessage message={error} />;
-  }
+  if (error) return <ErrorMessage message={error} onRetry={fetchRepos} />;
+
+  const filtered = repos.filter((repo) =>
+    repo.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div>
-      <h1
+      <h2
         style={{
           display: "flex",
           justifyContent: "center",
@@ -47,9 +46,17 @@ function Projects() {
         }}
       >
         My Projects
-      </h1>
+      </h2>
 
-      <RepoList repos={repos} />
+      <input
+        type="text"
+        placeholder="Search repositories..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ display: "block", margin: "12px auto", padding: "8px", width: "300px" }}
+      />
+
+      <RepoList repos={filtered} />
     </div>
   );
 }

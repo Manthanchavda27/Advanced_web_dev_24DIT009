@@ -15,6 +15,8 @@ import "./App.css";
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
+  const skillslist = ["HTML", "CSS", "JavaScript", "React"];
+
   return (
     <div className={darkMode ? "dark" : "light"}>
       <NavBar />
@@ -29,10 +31,9 @@ function App() {
       </button>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home skillslist={skillslist} />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
-
         <Route path="*" element={<NotFound />} />
       </Routes>
 

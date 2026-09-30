@@ -6,7 +6,7 @@ function RepoList({ repos }) {
       <ul>
         {repos.map((repo) => (
           <li key={repo.id}>
-            <h3>{repo.name}</h3>
+            <h3>{repo.name} ⭐ {repo.stargazers_count}</h3>
 
             <a
               href={repo.html_url}
