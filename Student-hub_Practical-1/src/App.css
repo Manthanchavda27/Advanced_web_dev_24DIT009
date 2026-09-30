@@ -92,10 +92,11 @@ input {
   border: 1px solid #ccc;
   font-size: 16px;
   background-color: white;
+  color : black;
 }
 
 footer {
-  background-color: #222;
+  background-color: black;
   color: white;
   text-align: center;
   padding: 15px;
@@ -124,7 +125,7 @@ footer {
 }
 
 .dark {
-  background-color: #1e1e1e;
+  background-color: #000000cf;
   color: white;
   min-height: 100vh;
   padding: 20px;
@@ -135,13 +136,13 @@ footer {
 }
 
 .dark .page {
-  background-color: #2c2c2c;
+  background-color: black;
   color: white;
 }
 
 .dark input {
-  background-color: #444;
-  color: white;
+  background-color: white;
+  color: black;
   border: 1px solid #777;
 }
 
