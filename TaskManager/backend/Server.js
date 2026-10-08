@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const { getStats } = require("./cache");
 
 const app = express();
 
@@ -36,11 +37,20 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/tasks", taskRoutes);
 
+app.post("/test", (req, res) => {
+  res.json({ received: req.body });
+});
+
 app.get("/", (req, res) => {
   res.json({
     message: "Task Management API",
     endpoints: ["/api/auth/register", "/api/auth/login", "/api/auth/me", "/tasks"],
   });
+});
+
+// Debug endpoint — cache hit/miss stats (no auth required for lab testing)
+app.get("/debug/cache", (req, res) => {
+  res.json(getStats());
 });
 
 // 404 handler for undefined routes

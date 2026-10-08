@@ -21,33 +21,34 @@ async function request(path, options = {}) {
     throw new Error(data.error || data.message || "Request failed");
   }
 
-  return data;
+  return { data };
 }
 
-export function getTasks() {
-  return request("/tasks");
+export async function getTasks() {
+  const { data } = await request("/tasks");
+  return { tasks: data };
 }
 
-export function createTask(task) {
+export async function createTask(task) {
   return request("/tasks", { method: "POST", body: JSON.stringify(task) });
 }
 
-export function updateTask(id, task) {
+export async function updateTask(id, task) {
   return request(`/tasks/${id}`, { method: "PUT", body: JSON.stringify(task) });
 }
 
-export function deleteTask(id) {
+export async function deleteTask(id) {
   return request(`/tasks/${id}`, { method: "DELETE" });
 }
 
-export function register(data) {
+export async function register(data) {
   return request("/api/auth/register", { method: "POST", body: JSON.stringify(data) });
 }
 
-export function login(data) {
+export async function login(data) {
   return request("/api/auth/login", { method: "POST", body: JSON.stringify(data) });
 }
 
-export function getMe() {
+export async function getMe() {
   return request("/api/auth/me");
 }
