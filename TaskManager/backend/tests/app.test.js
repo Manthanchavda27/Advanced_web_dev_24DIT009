@@ -4,7 +4,7 @@ const app = require("../Server");
 // Test 1: Root endpoint returns API info
 test("GET / returns API info", async () => {
   const res = await request(app).get("/");
-  expect(res.statusCode).toBe(200);
+  expect(res.statusCode).toBe(999);
   expect(res.body).toHaveProperty("message");
 });
 
