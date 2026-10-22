@@ -2,6 +2,7 @@ const express = require("express");
 const Task = require("../models/task");
 const authMiddleware = require("../middleware/authmiddleware");
 const { getCache, setCache, delCache } = require("../cache");
+const taskEvents = require("../events");
 
 const router = express.Router();
 
@@ -62,7 +63,9 @@ router.post("/", validateTask, async (req, res, next) => {
       priority: req.body.priority,
     });
     delCache(CACHE_ALL);
+    console.log(`[API] Response sent at ${new Date().toISOString()}`);
     res.status(201).json(task);
+    taskEvents.emit("task-created", task);
   } catch (err) {
     next(err);
   }
@@ -96,6 +99,7 @@ router.delete("/:id", async (req, res, next) => {
     if (!task) return res.status(404).json({ error: "Task not found" });
     delCache(CACHE_ALL, taskKey(req.params.id));
     res.json({ message: "Task deleted successfully", task });
+    taskEvents.emit("task-deleted", task);
   } catch (err) {
     next(err);
   }

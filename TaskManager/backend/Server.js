@@ -5,7 +5,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 const { getStats } = require("./cache");
+require("./listeners"); // Register all event listeners at startup
 
 const app = express();
 
@@ -36,6 +38,7 @@ app.use((req, res, next) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/tasks", taskRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.post("/test", (req, res) => {
   res.json({ received: req.body });
@@ -78,3 +81,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = app;
