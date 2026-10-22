@@ -52,3 +52,10 @@ export async function login(data) {
 export async function getMe() {
   return request("/api/auth/me");
 }
+
+export async function generateDescription(title) {
+  return request("/api/ai/generate-description", {
+    method: "POST",
+    body: JSON.stringify({ title }),
+  });
+}

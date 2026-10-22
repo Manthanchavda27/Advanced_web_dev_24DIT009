@@ -1,5 +1,6 @@
 function TaskPage({
   tasks, form, editingId, loading, saving, error, toast,
+  aiLoading, onGenerate,
   onFormChange, onSubmit, onEdit, onDelete, onToggleCompleted, onCancelEdit, onRefresh, onLogout,
 }) {
   const total     = tasks.length;
@@ -46,6 +47,9 @@ function TaskPage({
               name="description" value={form.description} onChange={onFormChange}
               placeholder="Description (optional)"
             />
+            <button type="button" className="ai-btn" onClick={onGenerate} disabled={aiLoading}>
+              {aiLoading ? "Generating…" : "✨ AI Generate Description"}
+            </button>
             <div className="form-row">
               <select name="priority" value={form.priority} onChange={onFormChange}>
                 <option value="low">🟢 Low Priority</option>

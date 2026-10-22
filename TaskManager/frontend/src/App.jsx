@@ -1,5 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from "react";
-import { createTask, deleteTask, getTasks, login, register, updateTask } from "./api";
+import { createTask, deleteTask, getTasks, login, register, updateTask, generateDescription } from "./api";
 import LoadingFallback from "./components/LoadingFallback";
 
 const AuthPage = lazy(() => import("./pages/AuthPage"));
@@ -20,6 +20,7 @@ function App() {
   const [saving, setSaving]     = useState(false);
   const [error, setError]       = useState("");
   const [toast, setToast]       = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
 
   async function loadTasks() {
     try {
@@ -46,6 +47,21 @@ function App() {
       localStorage.setItem("token", data.token);
       setToken(data.token); setAuthForm(emptyAuth);
     } catch (err) { setAuthError(err.message); }
+  }
+
+  async function handleGenerate() {
+    if (!form.title.trim()) return setError("Enter a title first to generate description");
+    try {
+      setAiLoading(true); setError("");
+      const { data } = await generateDescription(form.title);
+      if (data.fallback) {
+        setError(data.message);
+      } else {
+        setForm((c) => ({ ...c, description: data.description }));
+        showToast("AI description generated!");
+      }
+    } catch (err) { setError(err.message); }
+    finally { setAiLoading(false); }
   }
 
   async function handleSubmit(e) {
@@ -104,6 +120,8 @@ function App() {
       <TaskPage
         tasks={tasks} form={form} editingId={editingId}
         loading={loading} saving={saving} error={error} toast={toast}
+        aiLoading={aiLoading}
+        onGenerate={handleGenerate}
         onFormChange={(e) => setForm((c) => ({ ...c, [e.target.name]: e.target.value }))}
         onSubmit={handleSubmit}
         onEdit={(task) => { setEditingId(task._id); setForm({ title: task.title, description: task.description || "", priority: task.priority || "medium" }); }}
